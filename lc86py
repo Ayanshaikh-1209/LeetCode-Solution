@@ -1,0 +1,17 @@
+class Solution:
+    def partition(self, head, x):
+        less = ListNode(0)
+        greater = ListNode(0)
+        less_curr = less
+        greater_curr = greater
+        while head:
+            if head.val < x:
+                less_curr.next = head
+                less_curr = less_curr.next
+            else:
+                greater_curr.next = head
+                greater_curr = greater_curr.next
+            head = head.next
+        greater_curr.next = None
+        less_curr.next = greater.next
+        return less.next
