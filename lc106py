@@ -1,0 +1,14 @@
+class Solution:
+    def buildTree(self, inorder, postorder):
+        pos = {v: i for i, v in enumerate(inorder)}
+        def build(il, ir, pl, pr):
+            if il > ir:
+                return None
+            root_val = postorder[pr]
+            root = TreeNode(root_val)
+            mid = pos[root_val]
+            left_size = mid - il
+            root.left = build(il, mid - 1, pl, pl + left_size - 1)
+            root.right = build(mid + 1, ir, pl + left_size, pr - 1)
+            return root
+        return build(0, len(inorder) - 1, 0, len(postorder) - 1)
