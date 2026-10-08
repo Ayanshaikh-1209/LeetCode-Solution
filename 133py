@@ -1,0 +1,21 @@
+class Solution(object):
+    def cloneGraph(self, node):
+        if not node:
+            return None
+
+        clones = {node: Node(node.val)}
+        queue = [node]
+        i = 0
+
+        while i < len(queue):
+            current = queue[i]
+            i += 1
+
+            for neighbor in current.neighbors:
+                if neighbor not in clones:
+                    clones[neighbor] = Node(neighbor.val)
+                    queue.append(neighbor)
+
+                clones[current].neighbors.append(clones[neighbor])
+
+        return clones[node]
