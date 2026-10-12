@@ -1,0 +1,30 @@
+class Solution(object):
+    def snakesAndLadders(self, board):
+        n = len(board)
+        target = n * n
+        queue = [(1, 0)]
+        visited = {1}
+        i = 0
+
+        while i < len(queue):
+            curr, moves = queue[i]
+            i += 1
+
+            if curr == target:
+                return moves
+
+            for nxt in range(curr + 1, min(curr + 6, target) + 1):
+                r = n - 1 - (nxt - 1) // n
+                c = (nxt - 1) % n
+
+                if (n - 1 - r) % 2 == 1:
+                    c = n - 1 - c
+
+                if board[r][c] != -1:
+                    nxt = board[r][c]
+
+                if nxt not in visited:
+                    visited.add(nxt)
+                    queue.append((nxt, moves + 1))
+
+        return -1
