@@ -1,0 +1,29 @@
+class Solution(object):
+    def findWords(self, board, words):
+        root = {}
+        for word in words:
+            node = root
+            for ch in word:
+                if ch not in node:
+                    node[ch] = {}
+                node = node[ch]
+            node['#'] = word
+        m, n = len(board), len(board[0])
+        result = []
+        def dfs(r, c, node):
+            ch = board[r][c]
+            if ch not in node:
+                return
+            node = node[ch]
+            if '#' in node:
+                result.append(node.pop('#'))
+            board[r][c] = '*'
+            for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < m and 0 <= nc < n and board[nr][nc] != '*':
+                    dfs(nr, nc, node)
+            board[r][c] = ch
+        for r in range(m):
+            for c in range(n):
+                dfs(r, c, root)
+        return result
